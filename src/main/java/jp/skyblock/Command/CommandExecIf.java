@@ -1,8 +1,5 @@
-package jp.skyblock.Executer;
+package jp.skyblock.Command;
 
-import jp.skyblock.Command.DefaultCommand;
-import jp.skyblock.Command.PingCommand;
-import jp.skyblock.Command.RoleCommand;
 import jp.skyblock.Utility.ExceptionIf;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -13,12 +10,16 @@ import static jp.skyblock.Core.Constant.PREFIX;
 public interface CommandExecIf {
 	/**
 	 * Execメソッドを取得
+	 *
 	 * @param msg
 	 * @return
 	 */
-	static CommandExecIf getCommandExec(String msg){
+	static CommandExecIf getCommandExec(String msg) {
 		CommandExecIf command;
-		switch(msg){
+		String[] cmdSplit = msg.split(" ");
+		CommandEvent.cmdParam = cmdSplit;
+
+		switch (cmdSplit[0]) {
 			case PREFIX + COMMAND_HELLO:
 				command = new PingCommand();
 				break;
@@ -32,32 +33,30 @@ public interface CommandExecIf {
 		return command;
 	}
 
+	default void execute() throws ExceptionIf {
+
+	}
+
+	default Object executeResponse(Object obj) {
+		return obj;
+	}
 
 	/**
 	 * @return event
 	 */
 	class CommandEvent {
+		protected static String[] cmdParam;
+		protected static MessageReceivedEvent event;
+
 		public CommandEvent() {
 		}
 
-		public static MessageReceivedEvent getEvent() {
+		protected static MessageReceivedEvent getEvent() {
 			return event;
 		}
 
 		public static void setEvent(MessageReceivedEvent event) {
 			CommandEvent.event = event;
 		}
-
-		private static MessageReceivedEvent event;
-	}
-
-	MessageReceivedEvent event = CommandEvent.getEvent();
-	CommandEvent commandEvent = new CommandEvent();
-	default void execute() throws ExceptionIf {
-
-	}
-
-	default Object executeResponse(Object obj){
-		return obj;
 	}
 }

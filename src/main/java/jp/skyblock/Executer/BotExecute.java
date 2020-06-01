@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import javax.security.auth.login.LoginException;
 
 public class BotExecute {
-	public BotExecute(){
+	public BotExecute() {
 		try {
 			JDA jda = new JDABuilder(AccountType.BOT)
 					.setToken(Constant.DISCORD_TOKEN)

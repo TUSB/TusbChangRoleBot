@@ -5,6 +5,15 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 @Deprecated
 public class CommandExecute {
 
+	MessageReceivedEvent event;
+
+	public CommandExecute() {
+	}
+
+	public CommandExecute(MessageReceivedEvent event) {
+		this.event = event;
+	}
+
 	/**
 	 * @return event
 	 */
@@ -16,13 +25,6 @@ public class CommandExecute {
 	 * @param event セットする event
 	 */
 	public void setEvent(MessageReceivedEvent event) {
-		this.event = event;
-	}
-
-	MessageReceivedEvent event;
-	public CommandExecute(){ }
-
-	public CommandExecute(MessageReceivedEvent event){
 		this.event = event;
 	}
 

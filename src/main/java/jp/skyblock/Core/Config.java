@@ -1,49 +1,38 @@
 package jp.skyblock.Core;
 
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class Config {
-	public Config(){}
-
-	private static final String CONFIG_DIR = File.separator + "config";
-	private static final String DISCORD_CONFIG_FILE = File.separator + "Discord.properties";
+	public static final String CONFIG_DIR = getDir() + File.separator + "config";
+	public static final String DISCORD_CONFIG_FILE = File.separator + "Discord.properties";
+	@Deprecated
 	private static final Properties prop = new Properties();
-
-
-	/**
-	 *  Config Load
-	 */
-	public void load(){
-		PropertyConfigurator.configure("config/log4j.properties");
-		getDiscordConfigProperty();
+	private static final Configurations configs = new Configurations();
+	private static PropertiesConfiguration config;
+	public Config() {
 	}
 
 	/**
-	 *  Config Save
+	 * 現在のカレントディレクトリを絶対パスで取得
+	 *
+	 * @return
 	 */
-	public void save(String propDir, String propName, String key , String value) {
-		Properties p = new Properties();
-		OutputStream os;
-		try {
-			os = new FileOutputStream(propDir + File.separator + propName );
-			p.setProperty(key, value);
-			p.store(os, propName);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public static String getDir() {
+		return System.getProperty("user.dir");
 	}
 
 	/**
 	 * プロパティ値取得
+	 *
 	 * @param key
 	 * @return
 	 */
@@ -52,36 +41,81 @@ public class Config {
 	}
 
 	/**
-	 * プロパティ値を取得
+	 * プロパティ値を取得 デフォルト値あり
 	 *
-	 * @param key キー
+	 * @param key          キー
 	 * @param defaultValue デフォルト値
 	 * @return キーが存在しない場合、デフォルト値
-	 *          存在する場合、値
+	 * 存在する場合、値
 	 */
 	public static String getProperty(final String key, final String defaultValue) {
-		return prop.getProperty(key, defaultValue);
+		return config.getString(key, defaultValue);
+	}
+
+	public static String[] getPropertyList(final String key) {
+		return StringUtils.split(getProperty(key, ""), ',');
 	}
 
 	/**
-	 * 現在のカレントディレクトリを絶対パスで取得
-	 * @return
+	 * config Load
+	 *
+	 * @param filePath 読み込むファイルプロパティPath
 	 */
-	public static String getDir(){
-		return System.getProperty("user.dir");
-	}
-
-	/**
-	 * Discord 用ConfigファイルをLoad
-	 */
-	private void getDiscordConfigProperty(){
+	public void load(String filePath) {
 		try {
-			prop.load(new InputStreamReader(
-					new FileInputStream(getDir() + CONFIG_DIR + DISCORD_CONFIG_FILE),
-					StandardCharsets.UTF_8));
-		} catch (IOException e) {
+			config = configs.properties(new File(filePath));
+		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
+	}
 
+	public void saveList(String propDir, String propName, String key, String value) {
+
+		if ("".equals(getProperty(key))) {
+			save(propDir, propName, key, getProperty(key) + value);
+		} else {
+			if (!value.equals(getProperty(key))) {
+				String[] ls = getPropertyList(getProperty(key));
+				Arrays.stream(ls)
+						.filter(s -> !s.equals(value))
+						.forEachOrdered(
+								s -> save(propDir, propName, key, getProperty(key) + "," + value)
+						);
+
+				System.out.println(getProperty(key) + "," + value);
+			}
+		}
+	}
+
+	/**
+	 * Config Save
+	 *
+	 * @param propDir  ConfigFile Directory
+	 * @param propName ConfigFile Name
+	 * @param key      SaveSetting Key
+	 * @param value    SaveSetting Value
+	 */
+	public void save(String propDir, String propName, String key, String value) {
+
+		String propPath = propDir + propName;
+		Parameters params = new Parameters();
+		PropertiesConfiguration conf;
+
+		FileBasedConfigurationBuilder<PropertiesConfiguration> builder =
+				new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+						.configure(params.fileBased().setFileName(propPath));
+
+		try {
+			conf = builder.getConfiguration();
+			if ("".equals(getProperty(key))) {
+				conf.addProperty(key, value);
+			} else {
+				conf.setProperty(key, value);
+			}
+
+			builder.save();
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 }

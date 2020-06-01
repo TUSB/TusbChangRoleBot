@@ -2,7 +2,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'io.spring.dependency-management' version '1.0.1.RELEASE'
     id 'java'
-    id'application'
+    id 'application'
 }
 group 'jp.skyblock'
 version '1.0-SNAPSHOT'
@@ -30,6 +30,8 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-core'
     compile 'org.slf4j:slf4j-log4j12:1.7.30'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+    compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.7'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 

@@ -9,9 +9,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static jp.skyblock.Core.Constant.*;
+import static jp.skyblock.Core.Constant.EmojiSeparator;
 
-public class Emoji {
+public class EmojiUtil {
 
 	private final static BidiMap<Long, String> EmojiMap = new DualHashBidiMap<>(Collections.unmodifiableMap(new HashMap<Long, String>() {
 		{
@@ -21,28 +21,32 @@ public class Emoji {
 		}
 	}));
 
-	public String getEmojiName(Long id){
+	public String getEmojiName(Long id) {
 		return EmojiMap.get(id);
 	}
-	public Long getEmojiId(String name){
+
+	public Long getEmojiId(String name) {
 		return EmojiMap.getKey(name);
 	}
+
 	/**
 	 * Message の中にサーバ絵文字があった場合置換します。
+	 *
 	 * @param msg
 	 * @return
 	 */
-	public String ReplaceEmojiMessage(String msg){
+	public String ReplaceEmojiMessage(String msg) {
 		for (Map.Entry<Long, String> emoji : EmojiMap.entrySet()) {
 			msg = StringUtils.replace(msg,
-					EmojiSeparator + emoji.getKey() + EmojiSeparator,
+					EmojiSeparator + emoji.getValue() + EmojiSeparator,
 					getEmojiMessage(emoji.getValue()));
 		}
 		return msg;
 	}
 
 	/**
-	 *  :emoji: 形式の絵文字を返す
+	 * :emoji: 形式の絵文字を返す
+	 *
 	 * @param emojiName
 	 * @return
 	 */
@@ -52,19 +56,21 @@ public class Emoji {
 
 	/**
 	 * <:emoji:id> 形式の絵文字を返す
+	 *
 	 * @param emojiName
 	 * @return
 	 */
-	public String getEmojiMessage(String emojiName){
-		return  "<" + emoji(emojiName) + getEmojiId(emojiName) + ">";
+	public String getEmojiMessage(String emojiName) {
+		return "<" + emoji(emojiName) + getEmojiId(emojiName) + ">";
 	}
 
 	/**
 	 * emoji:id 形式の絵文字(リアクション用)を返す
+	 *
 	 * @param emojiName
 	 * @return
 	 */
-	public String getReaction(String emojiName){
+	public String getReaction(String emojiName) {
 		return emojiName + EmojiSeparator + getEmojiId(emojiName);
 	}
 

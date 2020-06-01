@@ -7,16 +7,17 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class ExceptionIf extends Exception {
-	final Emoji emj = Constant.emj;
+	final EmojiUtil emj = Constant.emj;
 
 	public ExceptionIf() {
 	}
+
 	public ExceptionIf(Exception e) {
 		e.printStackTrace();
 		throw new RuntimeException(e);
 	}
 
-	public Exception commandException(Exception e, MessageReceivedEvent event){
+	public Exception commandException(Exception e, MessageReceivedEvent event) {
 		Guild guild = event.getGuild();
 		User author = event.getAuthor();
 		String msg = event.getMessage().getContentDisplay();

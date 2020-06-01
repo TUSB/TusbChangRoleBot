@@ -12,22 +12,33 @@ import org.jetbrains.annotations.NotNull;
 public class BotListener extends ListenerAdapter {
 	private static final Received received = new Received();
 	private static final Reaction reaction = new Reaction();
+
 	/**
-	 * メッセージ送受信Event
+	 * メッセージ受信Event
+	 *
 	 * @param event
 	 */
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		if (event.getAuthor().isBot()) return;
-
-		received.onMessageReceived(event);
+		received.sendMessage(event);
 	}
 
+	/**
+	 * リアクション追加Event
+	 *
+	 * @param event
+	 */
 	@Override
 	public void onGuildMessageReactionAdd(@NotNull GuildMessageReactionAddEvent event) {
 		reaction.add(event);
 	}
 
+	/**
+	 * リアクション削除Event
+	 *
+	 * @param event
+	 */
 	@Override
 	public void onGuildMessageReactionRemove(@NotNull GuildMessageReactionRemoveEvent event) {
 		reaction.remove(event);
