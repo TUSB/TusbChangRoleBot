@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static jp.skyblock.Command.CommandExecIf.getCommandExec;
-import static jp.skyblock.Core.Constant.PREFIX;
-import static jp.skyblock.Core.Constant.logger;
+import static jp.skyblock.Core.Const.Constant.PREFIX;
+import static jp.skyblock.Core.Const.Constant.logger;
 
 public class Received extends BotListener {
 

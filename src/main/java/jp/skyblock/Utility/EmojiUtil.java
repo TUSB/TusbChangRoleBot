@@ -1,6 +1,16 @@
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 EmojiUtil.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
 package jp.skyblock.Utility;
 
-import jp.skyblock.Core.EmojiType;
+import jp.skyblock.Core.Const.EmojiType;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.lang3.StringUtils;
@@ -9,7 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static jp.skyblock.Core.Constant.EmojiSeparator;
+import static jp.skyblock.Core.Const.Constant.EmojiSeparator;
 
 public class EmojiUtil {
 

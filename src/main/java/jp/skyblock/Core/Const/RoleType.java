@@ -1,4 +1,14 @@
-package jp.skyblock.Core;
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 RoleType.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
+package jp.skyblock.Core.Const;
 
 public enum RoleType {
 	ADMIN(290015220519403520L, "管理者"),                        // ErrorLogを飛ばす先

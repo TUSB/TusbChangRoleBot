@@ -1,11 +1,21 @@
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 CommandExecIf.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
 package jp.skyblock.Command;
 
 import jp.skyblock.Utility.ExceptionIf;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import static jp.skyblock.Core.Constant.COMMAND_HELLO;
-import static jp.skyblock.Core.Constant.COMMAND_ROLE;
-import static jp.skyblock.Core.Constant.PREFIX;
+import static jp.skyblock.Core.Const.Constant.COMMAND_HELLO;
+import static jp.skyblock.Core.Const.Constant.COMMAND_ROLE;
+import static jp.skyblock.Core.Const.Constant.PREFIX;
 
 public interface CommandExecIf {
 	/**

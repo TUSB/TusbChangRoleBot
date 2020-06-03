@@ -1,6 +1,16 @@
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 RoleUtil.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
 package jp.skyblock.Utility;
 
-import jp.skyblock.Core.RoleType;
+import jp.skyblock.Core.Const.RoleType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 

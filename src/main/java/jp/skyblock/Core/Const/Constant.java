@@ -1,5 +1,16 @@
-package jp.skyblock.Core;
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 Constant.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
 
+package jp.skyblock.Core.Const;
+
+import jp.skyblock.Core.Config;
 import jp.skyblock.TusbChangRoleBot;
 import jp.skyblock.Utility.EmojiUtil;
 import jp.skyblock.Utility.ExceptionIf;

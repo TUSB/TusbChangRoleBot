@@ -1,7 +1,7 @@
 package jp.skyblock.Command;
 
 import jp.skyblock.Core.Config;
-import jp.skyblock.Core.Constant;
+import jp.skyblock.Core.Const.Constant;
 import jp.skyblock.Utility.EmojiUtil;
 import jp.skyblock.Utility.ExceptionIf;
 import jp.skyblock.Utility.RoleUtil;
@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import static jp.skyblock.Core.Config.CONFIG_DIR;
 import static jp.skyblock.Core.Config.DISCORD_CONFIG_FILE;
 import static jp.skyblock.Core.Config.getProperty;
-import static jp.skyblock.Core.EmojiType.TUSB;
-import static jp.skyblock.Core.EmojiType.TUSBCHANG_DOUBT;
-import static jp.skyblock.Core.EmojiType.TUSBCHANG_SAD;
-import static jp.skyblock.Core.EmojiType.TUSBCHANG_TALK;
+import static jp.skyblock.Core.Const.EmojiType.TUSB;
+import static jp.skyblock.Core.Const.EmojiType.TUSBCHANG_DOUBT;
+import static jp.skyblock.Core.Const.EmojiType.TUSBCHANG_SAD;
+import static jp.skyblock.Core.Const.EmojiType.TUSBCHANG_TALK;
 
 public class RoleCommand implements CommandExecIf {
 	final EmojiUtil emj = Constant.emj;

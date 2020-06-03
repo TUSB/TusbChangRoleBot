@@ -1,4 +1,14 @@
-package jp.skyblock.Core;
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 EmojiType.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
+package jp.skyblock.Core.Const;
 
 
 public enum EmojiType {

@@ -1,3 +1,13 @@
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 Config.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
 package jp.skyblock.Core;
 
 import org.apache.commons.configuration2.PropertiesConfiguration;
@@ -18,6 +28,7 @@ public class Config {
 	private static final Properties prop = new Properties();
 	private static final Configurations configs = new Configurations();
 	private static PropertiesConfiguration config;
+
 	public Config() {
 	}
 

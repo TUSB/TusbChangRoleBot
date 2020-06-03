@@ -1,7 +1,17 @@
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 TusbChangRoleBot.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
 package jp.skyblock;
 
 import jp.skyblock.Core.Config;
-import jp.skyblock.Core.Constant;
+import jp.skyblock.Core.Const.Constant;
 import jp.skyblock.Executer.BotExecute;
 import org.apache.log4j.PropertyConfigurator;
 

@@ -1,6 +1,16 @@
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 PingCommand.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
 package jp.skyblock.Command;
 
-import jp.skyblock.Core.Constant;
+import jp.skyblock.Core.Const.Constant;
 import jp.skyblock.Utility.EmojiUtil;
 import jp.skyblock.Utility.ExceptionIf;
 import jp.skyblock.Utility.WelcomeMessage;
@@ -11,7 +21,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import static jp.skyblock.Core.EmojiType.TUSB;
+import static jp.skyblock.Core.Const.EmojiType.TUSB;
 
 
 public class PingCommand implements CommandExecIf {

@@ -1,3 +1,13 @@
+/*
+ * *************************************************
+ *     TusbChangRoleBot
+ *      Copyright (c) 2020 BotListener.java
+ *
+ *  This software is released under the TUSB.
+ *      see https://github.com/TUSB/TusbChangRoleBot
+ * ************************************************
+ */
+
 package jp.skyblock.Core;
 
 import jp.skyblock.Core.Observer.Message.Reaction;
@@ -10,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class BotListener extends ListenerAdapter {
-	private static final Received received = new Received();
-	private static final Reaction reaction = new Reaction();
+	private final Received received = new Received();
+	private final Reaction reaction = new Reaction();
 
 	/**
 	 * メッセージ受信Event
