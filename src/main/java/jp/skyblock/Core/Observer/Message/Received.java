@@ -1,7 +1,6 @@
 package jp.skyblock.Core.Observer.Message;
 
 import jp.skyblock.Command.CommandExecIf;
-import jp.skyblock.Core.BotListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -23,7 +22,7 @@ import static jp.skyblock.Command.CommandExecIf.getCommandExec;
 import static jp.skyblock.Core.Const.Constant.PREFIX;
 import static jp.skyblock.Core.Const.Constant.logger;
 
-public class Received extends BotListener {
+public class Received {
 
 	private String getCommand(String msg) {
 		return PREFIX + msg;

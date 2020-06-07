@@ -18,14 +18,14 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Properties;
+import java.util.HashSet;
 
 public class Config {
 	public static final String CONFIG_DIR = getDir() + File.separator + "config";
 	public static final String DISCORD_CONFIG_FILE = File.separator + "Discord.properties";
-	@Deprecated
-	private static final Properties prop = new Properties();
+	private static final Parameters params = new Parameters();
 	private static final Configurations configs = new Configurations();
 	private static PropertiesConfiguration config;
 
@@ -47,7 +47,7 @@ public class Config {
 	 * @param key
 	 * @return
 	 */
-	public static String getProperty(final String key) {
+	public String getProperty(final String key) {
 		return getProperty(key, "");
 	}
 
@@ -59,12 +59,20 @@ public class Config {
 	 * @return キーが存在しない場合、デフォルト値
 	 * 存在する場合、値
 	 */
-	public static String getProperty(final String key, final String defaultValue) {
-		return config.getString(key, defaultValue);
+	public String getProperty(final String key, final String defaultValue) {
+		try {
+			return config.getString(key, defaultValue);
+		} catch (NullPointerException e) {
+			return "";
+		}
 	}
 
-	public static String[] getPropertyList(final String key) {
-		return StringUtils.split(getProperty(key, ""), ',');
+	/**
+	 * @param key
+	 * @return
+	 */
+	public ArrayList<String> getPropertyList(final String key) {
+		return new ArrayList<>(Arrays.asList(StringUtils.split(getProperty(key), ",")));
 	}
 
 	/**
@@ -80,50 +88,46 @@ public class Config {
 		}
 	}
 
-	public void saveList(String propDir, String propName, String key, String value) {
 
+	/**
+	 * @param propFile
+	 * @param key
+	 * @param value
+	 */
+	public void saveList(String propFile, String key, String value) {
+		load(propFile);
 		if ("".equals(getProperty(key))) {
-			save(propDir, propName, key, getProperty(key) + value);
+			save(propFile, key, value);
 		} else {
-			if (!value.equals(getProperty(key))) {
-				String[] ls = getPropertyList(getProperty(key));
-				Arrays.stream(ls)
-						.filter(s -> !s.equals(value))
-						.forEachOrdered(
-								s -> save(propDir, propName, key, getProperty(key) + "," + value)
-						);
-
-				System.out.println(getProperty(key) + "," + value);
-			}
+			ArrayList<String> in = getPropertyList(key);
+			in.add(value);
+			ArrayList<String> out = new ArrayList<>(new HashSet<>(in));
+			save(propFile, key, String.valueOf(StringUtils.join(out, ',')));
+			System.out.println(out);
 		}
 	}
 
 	/**
 	 * Config Save
 	 *
-	 * @param propDir  ConfigFile Directory
-	 * @param propName ConfigFile Name
+	 * @param propFile
 	 * @param key      SaveSetting Key
 	 * @param value    SaveSetting Value
 	 */
-	public void save(String propDir, String propName, String key, String value) {
-
-		String propPath = propDir + propName;
-		Parameters params = new Parameters();
+	public void save(String propFile, String key, String value) {
 		PropertiesConfiguration conf;
 
 		FileBasedConfigurationBuilder<PropertiesConfiguration> builder =
 				new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
-						.configure(params.fileBased().setFileName(propPath));
+						.configure(params.fileBased().setFileName(propFile));
 
 		try {
 			conf = builder.getConfiguration();
-			if ("".equals(getProperty(key))) {
+			if (!conf.containsKey(key)) {
 				conf.addProperty(key, value);
 			} else {
 				conf.setProperty(key, value);
 			}
-
 			builder.save();
 		} catch (ConfigurationException e) {
 			e.printStackTrace();

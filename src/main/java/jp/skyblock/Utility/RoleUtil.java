@@ -10,7 +10,7 @@
 
 package jp.skyblock.Utility;
 
-import jp.skyblock.Core.Const.RoleType;
+import jp.skyblock.Core.Const.Enums.RoleType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 

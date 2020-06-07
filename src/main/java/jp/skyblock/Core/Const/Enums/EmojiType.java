@@ -8,7 +8,7 @@
  * ************************************************
  */
 
-package jp.skyblock.Core.Const;
+package jp.skyblock.Core.Const.Enums;
 
 
 public enum EmojiType {

@@ -20,11 +20,10 @@ import java.util.ArrayList;
 
 import static jp.skyblock.Core.Config.CONFIG_DIR;
 import static jp.skyblock.Core.Config.DISCORD_CONFIG_FILE;
-import static jp.skyblock.Core.Config.getProperty;
-import static jp.skyblock.Core.Const.EmojiType.TUSB;
-import static jp.skyblock.Core.Const.EmojiType.TUSBCHANG_DOUBT;
-import static jp.skyblock.Core.Const.EmojiType.TUSBCHANG_SAD;
-import static jp.skyblock.Core.Const.EmojiType.TUSBCHANG_TALK;
+import static jp.skyblock.Core.Const.Enums.EmojiType.TUSB;
+import static jp.skyblock.Core.Const.Enums.EmojiType.TUSBCHANG_DOUBT;
+import static jp.skyblock.Core.Const.Enums.EmojiType.TUSBCHANG_SAD;
+import static jp.skyblock.Core.Const.Enums.EmojiType.TUSBCHANG_TALK;
 
 public class RoleCommand implements CommandExecIf {
 	final EmojiUtil emj = Constant.emj;
@@ -48,18 +47,6 @@ public class RoleCommand implements CommandExecIf {
 		String propPath = CONFIG_DIR;
 		String propName = DISCORD_CONFIG_FILE;
 
-		// コマンド履行をAdminのみとする。
-		if (!roleUtil.isAdmin(member)) return;
-
-		//付与するリアクションList
-		ArrayList<String> pushEmojiList = new ArrayList<String>() {
-			{
-				add(emj.getReaction(TUSB.getName()));
-				add(emj.getReaction(TUSBCHANG_TALK.getName()));
-				add(emj.getReaction(TUSBCHANG_SAD.getName()));
-				add(emj.getReaction(TUSBCHANG_DOUBT.getName()));
-			}
-		};
 
 		long mesId = 0L;
 		boolean isForce; // デフォルトTrue
@@ -74,12 +61,22 @@ public class RoleCommand implements CommandExecIf {
 			isForce = true;
 		}
 		boolean finalIsForce = isForce;
+		// コマンド履行をAdminのみとする。
+		if (!roleUtil.isAdmin(member)) return;
 
+		//付与するリアクションList
+		ArrayList<String> pushEmojiList = new ArrayList<String>() {
+			{
+				add(emj.getReaction(TUSB.getName()));
+				add(emj.getReaction(TUSBCHANG_TALK.getName()));
+				add(emj.getReaction(TUSBCHANG_SAD.getName()));
+				add(emj.getReaction(TUSBCHANG_DOUBT.getName()));
+			}
+		};
 		// ここまで初期化
 		try {
 			channel.retrieveMessageById(mesId).queue((m) -> {
 				channel.sendTyping().queue();
-				m.editMessage(" ").queue();
 				m.editMessage(eb.build()).queue();
 				pushEmojiList.forEach(emj -> m.addReaction(emj).queue());
 			}, (e) -> {
@@ -93,12 +90,12 @@ public class RoleCommand implements CommandExecIf {
 			});
 
 			// Save Properties
-			if (finalIsForce || !getProperty("OBSERVER_REACTION_CHANNEL_ID").equals("")) {
-				conf.saveList(propPath, propName, "OBSERVER_REACTION_CHANNEL_ID", String.valueOf(channel.getIdLong()));
+			if (finalIsForce || !new Config().getProperty("OBSERVER_REACTION_CHANNEL_ID").equals("")) {
+				conf.saveList(propPath + propName, "OBSERVER_REACTION_CHANNEL_ID", String.valueOf(channel.getIdLong()));
 			}
 
-			if (finalIsForce || getProperty("OBSERVER_REACTION_MESSAGE_ID").equals("")) {
-				conf.saveList(propPath, propName, "OBSERVER_REACTION_MESSAGE_ID", String.valueOf(mesId));
+			if (finalIsForce || new Config().getProperty("OBSERVER_REACTION_MESSAGE_ID").equals("")) {
+				conf.saveList(propPath + propName, "OBSERVER_REACTION_MESSAGE_ID", String.valueOf(mesId));
 			}
 
 

@@ -1,12 +1,11 @@
 package jp.skyblock.Core.Observer.Message;
 
-import jp.skyblock.Core.BotListener;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 
 import java.util.Objects;
 
-public class Reaction extends BotListener {
+public class Reaction {
 	public void add(GuildMessageReactionAddEvent event) {
 		if (!event.getUser().equals(event.getJDA().getSelfUser())) {
 			event.getChannel().getIdLong();

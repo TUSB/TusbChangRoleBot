@@ -10,7 +10,7 @@
 
 package jp.skyblock.Utility;
 
-import jp.skyblock.Core.Const.EmojiType;
+import jp.skyblock.Core.Const.Enums.EmojiType;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.lang3.StringUtils;

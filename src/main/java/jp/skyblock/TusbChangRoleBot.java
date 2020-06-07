@@ -19,7 +19,6 @@ public class TusbChangRoleBot {
 
 	public static void main(String[] args) {
 		loadConf();
-		new Constant();
 		Constant.logger.info("Config Load");
 		new BotExecute();
 	}

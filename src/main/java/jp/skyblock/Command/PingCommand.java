@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import static jp.skyblock.Core.Const.EmojiType.TUSB;
+import static jp.skyblock.Core.Const.Enums.EmojiType.TUSB;
 
 
 public class PingCommand implements CommandExecIf {

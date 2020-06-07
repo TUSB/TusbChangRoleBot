@@ -8,7 +8,7 @@
  * ************************************************
  */
 
-package jp.skyblock.Core.Const;
+package jp.skyblock.Core.Const.Enums;
 
 public enum RoleType {
 	ADMIN(290015220519403520L, "管理者"),                        // ErrorLogを飛ばす先

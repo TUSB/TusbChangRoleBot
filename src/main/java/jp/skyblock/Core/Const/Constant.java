@@ -22,7 +22,7 @@ public class Constant {
 
 
 	public static final Logger logger = Logger.getLogger(TusbChangRoleBot.class);
-	public static final String DISCORD_TOKEN = Config.getProperty("Token");
+	public static final String DISCORD_TOKEN = new Config().getProperty("Token");
 	public static final String PREFIX = "!";
 
 	//	Command
