@@ -10,12 +10,16 @@
 
 package jp.skyblock.Command;
 
+import jp.skyblock.Core.Config;
 import jp.skyblock.Core.Const.Constant;
+import jp.skyblock.Core.Observer.Message.Received;
 import jp.skyblock.Utility.EmojiUtil;
 import jp.skyblock.Utility.ExceptionIf;
+import jp.skyblock.Utility.RoleUtil;
 import jp.skyblock.Utility.WelcomeMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -26,18 +30,18 @@ import static jp.skyblock.Core.Const.Enums.EmojiType.TUSB;
 
 public class PingCommand implements CommandExecIf {
 	final EmojiUtil emj = Constant.emj;
-	final ExceptionIf exceptIf = Constant.exceptIf;
-
+	final RoleUtil roleUtil = new RoleUtil();
+	final Received received = new Received();
 
 	@Override
 	public void execute() {
-		MessageReceivedEvent event = CommandExecIf.CommandEvent.getEvent();
-
+		MessageReceivedEvent event = received.getEvent();
+		String[] cmdParam = received.getCmdParam();
 		Guild guild = event.getGuild();
 		User author = event.getAuthor();
+		Member member = guild.getMember(author);
 		Message message = event.getMessage();
 		MessageChannel channel = event.getChannel();
-		String msg = message.getContentDisplay();
 
 		WelcomeMessage wel = new WelcomeMessage(event);
 		EmbedBuilder eb = wel.getWelcomeMessage();
@@ -50,8 +54,14 @@ public class PingCommand implements CommandExecIf {
 			eb.clear();
 
 		} catch (Exception e) {
-			Exception ex = exceptIf.commandException(e, event);
-			throw new RuntimeException(ex);
+
 		}
 	}
+
+	@Override
+	public Object executeResponse(Object obj) {
+		return null;
+	}
+
+
 }

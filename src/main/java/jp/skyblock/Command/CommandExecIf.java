@@ -16,18 +16,17 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import static jp.skyblock.Core.Const.Constant.COMMAND_HELLO;
 import static jp.skyblock.Core.Const.Constant.COMMAND_ROLE;
 import static jp.skyblock.Core.Const.Constant.PREFIX;
+import static jp.skyblock.Utility.ExceptionIf.commandException;
 
-public interface CommandExecIf {
+public interface CommandExecIf  {
 	/**
 	 * Execメソッドを取得
 	 *
-	 * @param msg
+	 * @param cmdSplit
 	 * @return
 	 */
-	static CommandExecIf getCommandExec(String msg) {
+	static CommandExecIf getInstance(String[] cmdSplit) {
 		CommandExecIf command;
-		String[] cmdSplit = msg.split(" ");
-		CommandEvent.cmdParam = cmdSplit;
 
 		switch (cmdSplit[0]) {
 			case PREFIX + COMMAND_HELLO:
@@ -43,30 +42,12 @@ public interface CommandExecIf {
 		return command;
 	}
 
-	default void execute() throws ExceptionIf {
+	void execute() throws Exception;
 
+	 Object executeResponse(Object obj);
+
+	default Exception sendError(Exception e, String ErrorMessage, MessageReceivedEvent event) throws Exception {
+		return commandException(e, ErrorMessage, event);
 	}
 
-	default Object executeResponse(Object obj) {
-		return obj;
-	}
-
-	/**
-	 * @return event
-	 */
-	class CommandEvent {
-		protected static String[] cmdParam;
-		protected static MessageReceivedEvent event;
-
-		public CommandEvent() {
-		}
-
-		protected static MessageReceivedEvent getEvent() {
-			return event;
-		}
-
-		public static void setEvent(MessageReceivedEvent event) {
-			CommandEvent.event = event;
-		}
-	}
 }

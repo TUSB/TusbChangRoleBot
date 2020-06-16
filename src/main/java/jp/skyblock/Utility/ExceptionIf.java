@@ -10,28 +10,41 @@
 
 package jp.skyblock.Utility;
 
+import jp.skyblock.Command.CommandExecIf;
 import jp.skyblock.Core.Const.Constant;
+import jp.skyblock.Core.Observer.Message.Received;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
-public class ExceptionIf extends Exception {
-	final EmojiUtil emj = Constant.emj;
+public interface ExceptionIf  {
 
-	public ExceptionIf() {
+
+	/**
+	 * @param e
+	 * @return
+	 */
+
+	default Exception commandException(Exception e){
+		return e;
 	}
 
-	public ExceptionIf(Exception e) {
-		e.printStackTrace();
-		throw new RuntimeException(e);
+
+	default Exception commandException(Exception e, String ErrorMessage){
+		return e;
 	}
 
-	public Exception commandException(Exception e, MessageReceivedEvent event) {
-		Guild guild = event.getGuild();
-		User author = event.getAuthor();
-		String msg = event.getMessage().getContentDisplay();
-		MessageChannel channel = event.getChannel();
+	Received received = new Received();
+	static Exception commandException(Exception e, String ErrorMessage, MessageReceivedEvent event) {
+		EmojiUtil emj = Constant.emj;
+		Guild guild = Received.getGuild();
+		User author = Received.getAuthor();
+		MessageChannel channel = Received.getChannel();
+		String msg = Received.getMessage().getContentDisplay();
 
 		String errorMes = String.format("(%s)[%s %s]<%s>: %s \n %s",
 				event.getResponseNumber(), guild.getName(), channel.getName(), author, msg, e.getLocalizedMessage());

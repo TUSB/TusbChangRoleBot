@@ -12,9 +12,9 @@ package jp.skyblock.Command;
 
 import jp.skyblock.Utility.ExceptionIf;
 
-public class DefaultCommand implements CommandExecIf {
+public class DefaultCommand extends Throwable implements CommandExecIf {
 	@Override
-	public void execute() throws ExceptionIf {
+	public void execute() {
 
 	}
 
@@ -22,4 +22,5 @@ public class DefaultCommand implements CommandExecIf {
 	public Object executeResponse(Object obj) {
 		return null;
 	}
+
 }

@@ -1,7 +1,6 @@
 package jp.skyblock.Core.Observer.Message;
 
 import jp.skyblock.Command.CommandExecIf;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -14,11 +13,9 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 
-import java.awt.*;
-import java.util.Arrays;
 import java.util.Objects;
 
-import static jp.skyblock.Command.CommandExecIf.getCommandExec;
+import static jp.skyblock.Command.CommandExecIf.getInstance;
 import static jp.skyblock.Core.Const.Constant.PREFIX;
 import static jp.skyblock.Core.Const.Constant.logger;
 
@@ -33,19 +30,79 @@ public class Received {
 	}
 
 	/**
+	 * @return event
+	 */
+
+	private static String[] cmdParam;
+	private static MessageReceivedEvent event;
+
+	public static Guild getGuild() {
+		return guild;
+	}
+
+	public static User getAuthor() {
+		return author;
+	}
+
+	public static Member getMember() {
+		return member;
+	}
+
+	public static Message getMessage() {
+		return message;
+	}
+
+	public static MessageChannel getChannel() {
+		return channel;
+	}
+
+	public MessageChannel getTextChannel() {
+		return textChannel;
+	}
+
+
+	public String getMsg() {
+		return msg;
+	}
+
+	private static Guild guild;
+	private static User author;
+	private static Member member;
+	private static Message message;
+	private static MessageChannel channel;
+	private static TextChannel textChannel;
+	private static String msg;
+
+	public static MessageReceivedEvent getEvent() {
+		return event;
+	}
+	public void setEvent(MessageReceivedEvent event) {
+		Received.event = event;
+	}
+	public static String[] getCmdParam() { return cmdParam; }
+	public void setCmdParam(String[] cmdParam) {
+		Received.cmdParam = cmdParam;
+	}
+
+
+
+
+	/**
 	 * @param event
 	 */
 	public void sendMessage(MessageReceivedEvent event) {
 		try {
 			//これらは JDA のすべてのイベントで提供されます。
+			this.setEvent(event);
 			JDA jda = event.getJDA();
 			long responseNumber = event.getResponseNumber();
-			Guild guild = event.getGuild();
-			User author = event.getAuthor();
-			Message message = event.getMessage();
-			MessageChannel channel = event.getChannel();
-			TextChannel textChannel = event.getTextChannel();
-			Member member = event.getMember();
+			guild = event.getGuild();
+			author = event.getAuthor();
+			member = guild.getMember(author);
+			message = event.getMessage();
+			channel = event.getChannel();
+			textChannel = event.getTextChannel();
+			member = event.getMember();
 
 			String msg = message.getContentDisplay();
 			String name = message.isWebhookMessage() ? author.getName() : Objects.requireNonNull(member).getEffectiveName();
@@ -54,23 +111,12 @@ public class Received {
 				logger.info(String.format("(%s)[%s %s]<%s>: %s", responseNumber, guild.getName(), textChannel.getName(), name, msg));
 
 				if (isCommand(msg)) {
-					CommandExecIf command = getCommandExec(msg);
+					setCmdParam(msg.split(" "));
+					CommandExecIf command = getInstance(getCmdParam());
 					try {
-						CommandExecIf.CommandEvent.setEvent(event);
 						command.execute();
-
 					} catch (Exception e) {
-						EmbedBuilder eb = new EmbedBuilder();
-						TextChannel c = guild.getTextChannelById(714836325592989737L);
-						eb.setColor(Color.RED);
-						eb.setTitle(e.getMessage());
-						eb.setAuthor(author.getName());
-						eb.setDescription(Arrays.toString(e.getStackTrace()));
-						eb.setFooter("(c) TUSB ~ 想像を超えた創造を ~", guild.getIconUrl());
-						Objects.requireNonNull(c).sendMessage(eb.build())
-								.queue();
-						eb.clear();
-
+						e.printStackTrace();
 					}
 				}
 			} else if (event.isFromType(ChannelType.PRIVATE)) {

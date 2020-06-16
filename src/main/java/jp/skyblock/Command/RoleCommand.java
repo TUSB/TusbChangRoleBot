@@ -2,8 +2,8 @@ package jp.skyblock.Command;
 
 import jp.skyblock.Core.Config;
 import jp.skyblock.Core.Const.Constant;
+import jp.skyblock.Core.Observer.Message.Received;
 import jp.skyblock.Utility.EmojiUtil;
-import jp.skyblock.Utility.ExceptionIf;
 import jp.skyblock.Utility.RoleUtil;
 import jp.skyblock.Utility.WelcomeMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -18,8 +18,6 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 
 import java.util.ArrayList;
 
-import static jp.skyblock.Core.Config.CONFIG_DIR;
-import static jp.skyblock.Core.Config.DISCORD_CONFIG_FILE;
 import static jp.skyblock.Core.Const.Enums.EmojiType.TUSB;
 import static jp.skyblock.Core.Const.Enums.EmojiType.TUSBCHANG_DOUBT;
 import static jp.skyblock.Core.Const.Enums.EmojiType.TUSBCHANG_SAD;
@@ -27,25 +25,20 @@ import static jp.skyblock.Core.Const.Enums.EmojiType.TUSBCHANG_TALK;
 
 public class RoleCommand implements CommandExecIf {
 	final EmojiUtil emj = Constant.emj;
-	final ExceptionIf exceptIf = Constant.exceptIf;
 	final RoleUtil roleUtil = new RoleUtil();
 
 	@Override
-	public void execute() throws ExceptionIf {
-		MessageReceivedEvent event = CommandExecIf.CommandEvent.getEvent();
-		String[] cmdParam = CommandExecIf.CommandEvent.cmdParam;
-		Guild guild = event.getGuild();
-		User author = event.getAuthor();
-		Member member = guild.getMember(author);
-		Message message = event.getMessage();
-		MessageChannel channel = event.getChannel();
+	public void execute() throws Exception {
+		MessageReceivedEvent event = Received.getEvent();
+		String[] cmdParam = Received.getCmdParam();
+		Guild guild = Received.getGuild();
+		User author = Received.getAuthor();
+		Member member = Received.getMember();
+		Message message = Received.getMessage();
+		MessageChannel channel = Received.getChannel();
 
 		WelcomeMessage wel = new WelcomeMessage(event);
 		EmbedBuilder eb = wel.getWelcomeMessage();
-
-		Config conf = new Config();
-		String propPath = CONFIG_DIR;
-		String propName = DISCORD_CONFIG_FILE;
 
 
 		long mesId = 0L;
@@ -86,22 +79,27 @@ public class RoleCommand implements CommandExecIf {
 						channel.sendMessage("That message doesn't exist !").queue();
 					}
 				}
-				throw new RuntimeException(e);
 			});
 
 			// Save Properties
-			if (finalIsForce || !new Config().getProperty("OBSERVER_REACTION_CHANNEL_ID").equals("")) {
-				conf.saveList(propPath + propName, "OBSERVER_REACTION_CHANNEL_ID", String.valueOf(channel.getIdLong()));
-			}
+//			if (finalIsForce || !new Config().getProperty("OBSERVER_REACTION_CHANNEL_ID").equals("")) {
+//				conf.saveList(propPath + propName, "OBSERVER_REACTION_CHANNEL_ID", String.valueOf(channel.getIdLong()));
+//			}
+//
+//			if (finalIsForce || new Config().getProperty("OBSERVER_REACTION_MESSAGE_ID").equals("")) {
+//				conf.saveList(propPath + propName, "OBSERVER_REACTION_MESSAGE_ID", String.valueOf(mesId));
+//			}
 
-			if (finalIsForce || new Config().getProperty("OBSERVER_REACTION_MESSAGE_ID").equals("")) {
-				conf.saveList(propPath + propName, "OBSERVER_REACTION_MESSAGE_ID", String.valueOf(mesId));
-			}
-
-
+//		throw new Exception("ERROR");
 		} catch (Exception e) {
-			Exception ex = exceptIf.commandException(e, event);
-			throw new ExceptionIf(ex);
+			e.printStackTrace();
+			throw sendError(e, "ERROR", event);
 		}
 	}
+
+	@Override
+	public Object executeResponse(Object obj) {
+		return null;
+	}
+
 }

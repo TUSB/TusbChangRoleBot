@@ -16,9 +16,13 @@ import jp.skyblock.Utility.EmojiUtil;
 import jp.skyblock.Utility.ExceptionIf;
 import org.apache.log4j.Logger;
 
+import java.io.File;
+
+import static jp.skyblock.Core.Config.getDir;
+
 public class Constant {
 	public static final EmojiUtil emj = new EmojiUtil();
-	public static final ExceptionIf exceptIf = new ExceptionIf();
+	public static final Config config = new Config();
 
 
 	public static final Logger logger = Logger.getLogger(TusbChangRoleBot.class);
@@ -31,8 +35,5 @@ public class Constant {
 
 	//	Emoji
 	public static final String EmojiSeparator = ":";
-
-	//TODO enum にすべき
-
 
 }

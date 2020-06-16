@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class Config {
-	public static final String CONFIG_DIR = getDir() + File.separator + "config";
-	public static final String DISCORD_CONFIG_FILE = File.separator + "Discord.properties";
 	private static final Parameters params = new Parameters();
 	private static final Configurations configs = new Configurations();
 	private static PropertiesConfiguration config;

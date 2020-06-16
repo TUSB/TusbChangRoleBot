@@ -13,13 +13,23 @@ package jp.skyblock;
 import jp.skyblock.Core.Config;
 import jp.skyblock.Core.Const.Constant;
 import jp.skyblock.Executer.BotExecute;
+import jp.skyblock.Utility.db.ConnectionPool;
 import org.apache.log4j.PropertyConfigurator;
+
+import java.io.File;
+
+import static jp.skyblock.Core.Config.getDir;
+import static jp.skyblock.Core.Const.Constant.*;
 
 public class TusbChangRoleBot {
 
+	private static final String CONFIG_DIR = getDir() + File.separator + "config";
+	private static final String DISCORD_CONFIG_FILE = File.separator + "Discord.properties";
+	private static final String DATABASE_CONFIG_FILE = File.separator + "Database.properties";
+
 	public static void main(String[] args) {
 		loadConf();
-		Constant.logger.info("Config Load");
+		logger.info("Config Load");
 		new BotExecute();
 	}
 
@@ -28,7 +38,7 @@ public class TusbChangRoleBot {
 		try {
 			PropertyConfigurator.configure("config/log4j.properties");
 			// Discord 用ConfigファイルをLoad
-			config.load(Config.CONFIG_DIR + Config.DISCORD_CONFIG_FILE);
+			config.load(CONFIG_DIR + DISCORD_CONFIG_FILE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
