@@ -37,40 +37,42 @@ public class TusbChangRoleBot {
 	private static final String DISCORD_CONFIG_FILE = File.separator + "Discord.properties";
 	private static final String DATABASE_CONFIG_FILE = File.separator + "Database.properties";
 
+	/**
+	 * main メソッド
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		loadConf();
-		logger.info("Config Load");
 		initialize();
-
-		try (Connection con = ConnectionPool.getConnection()) {
-
-			Statement statement = con.createStatement();
-			String sql = "SELECT CURRENT_TIMESTAMP;";
-			statement.executeQuery(sql);
-			ResultSet rs = statement.executeQuery(sql);
-			if (rs.next()) {
-				String now = rs.getString("CURRENT_TIMESTAMP");
-				System.out.println("現在時間: " + now);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
+		checkDatabase();
 	}
 
+	/**
+	 * Config File Load
+	 */
 	private static void loadConf() {
 		try {
 			PropertyConfigurator.configure("config/log4j.properties");
 			DISCORD_PROP_FILE = CONFIG_DIR + DISCORD_CONFIG_FILE;
 			DATABASE_PROP_FILE = CONFIG_DIR + DATABASE_CONFIG_FILE;
+			logger.info("Config Load");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-
+	/**
+	 * 各種インスタンスをイニシャライズ
+	 */
 	private static void initialize() {
-		// Discord 用ConfigファイルをLoad
+		databaseInitialize();
+		discordInitialize();
+	}
+
+	/**
+	 * Discord用インスタンスを初期化
+	 */
+	private static void discordInitialize(){
 		try {
 			String DISCORD_TOKEN = new Config().getValue(DISCORD_PROP_FILE, "Token");
 			JDA jda = createLight(DISCORD_TOKEN)
@@ -84,11 +86,35 @@ public class TusbChangRoleBot {
 			e.printStackTrace();
 			System.exit(1);
 		}
+	}
 
+
+	/**
+	 * Databaseインスタンスを作成する。
+	 */
+	private static void databaseInitialize(){
 		try {
 			ConnectionPool.initialize(DATABASE_PROP_FILE);
 		} catch (Exception e) {
 			throw new ServiceException(DatabaseError.DatabaseInit, e);
+		}
+	}
+
+	/**
+	 * Database の接続確認をする。
+	 */
+	private static void checkDatabase(){
+		try (Connection con = ConnectionPool.getConnection()) {
+			Statement statement = con.createStatement();
+			String sql = "SELECT CURRENT_TIMESTAMP;";
+			statement.executeQuery(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			if (rs.next()) {
+				String now = rs.getString("CURRENT_TIMESTAMP");
+				System.out.println("現在時間: " + now);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

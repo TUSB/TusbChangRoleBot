@@ -52,7 +52,7 @@ public class Config {
 	 *
 	 * @return Properties
 	 */
-	public static Properties loadProperties(final String basePath) {
+	public Properties loadProperties(final String basePath) {
 		try {
 			try (InputStream inputStream = new FileInputStream(basePath)) {
 				Properties properties = new Properties();

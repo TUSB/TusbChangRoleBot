@@ -33,7 +33,7 @@ public class PingCommand implements CommandExecIf {
 	final Received received = new Received();
 
 	@Override
-	public void execute() {
+	public void execute() throws Exception {
 		MessageReceivedEvent event = Received.getEvent();
 		String[] cmdParam = Received.getCmdParam();
 		Guild guild = event.getGuild();
@@ -53,7 +53,7 @@ public class PingCommand implements CommandExecIf {
 			eb.clear();
 
 		} catch (Exception e) {
-
+			throw sendError(e, "ERROR", event);
 		}
 	}
 

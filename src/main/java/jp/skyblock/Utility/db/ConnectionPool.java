@@ -11,6 +11,7 @@
 package jp.skyblock.Utility.db;
 
 import com.zaxxer.hikari.HikariDataSource;
+import jp.skyblock.Core.Config;
 import jp.skyblock.Core.Const.Enums.DatabaseError;
 import jp.skyblock.Utility.Exception.ServiceException;
 
@@ -20,8 +21,6 @@ import java.util.Calendar;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static jp.skyblock.Core.Config.loadProperties;
 
 public abstract class ConnectionPool {
 
@@ -92,9 +91,10 @@ public abstract class ConnectionPool {
 		try {
 			if (getInstance().dataSource != null) {
 				con = getInstance().dataSource.getConnection();
+			}else{
+				throw new ServiceException(DatabaseError.DatabaseState,
+						"Server : " + getDBParameter().getServers()[serverIndex]);
 			}
-			throw new ServiceException(DatabaseError.DatabaseState,
-					"Server : " + getDBParameter().getServers()[serverIndex]);
 		} catch (Exception e) {
 			if (retry) con = getReConnection();
 			else throw e;
@@ -158,7 +158,7 @@ public abstract class ConnectionPool {
 	 * @param prop Database Properties File
 	 */
 	public static void initialize(final String prop) {
-		Properties p = loadProperties(prop);
+		Properties p = new Config().loadProperties(prop);
 		if (instance == null) {
 			instance = createInstance(p);
 		}
