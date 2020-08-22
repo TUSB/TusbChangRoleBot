@@ -10,7 +10,7 @@
 
 package jp.skyblock.Command;
 
-import jp.skyblock.Utility.ExceptionIf;
+import jp.skyblock.Executer.CommandExecIf;
 
 public class DefaultCommand extends Throwable implements CommandExecIf {
 	@Override

@@ -10,17 +10,11 @@
 
 package jp.skyblock.Core.Const.Enums;
 
-public enum CommandExceptionType {
-	PERMISSIONS_DENIED("製作者のみ使用可能です");
+import jp.skyblock.Utility.Exception.ExceptionIf;
 
-	//TODO ErrorMessage
-
-	String errorMessage;
-
-	CommandExceptionType() {
-	}
-
-	CommandExceptionType(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+public enum DatabaseError implements ExceptionIf.ErrorCode {
+	DatabaseInit,
+	DatabaseState,
+	DatabaseTransaction,
+	;
 }

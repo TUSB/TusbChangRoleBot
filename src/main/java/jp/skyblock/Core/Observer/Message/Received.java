@@ -1,6 +1,6 @@
 package jp.skyblock.Core.Observer.Message;
 
-import jp.skyblock.Command.CommandExecIf;
+import jp.skyblock.Executer.CommandExecIf;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -15,19 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
-import static jp.skyblock.Command.CommandExecIf.getInstance;
 import static jp.skyblock.Core.Const.Constant.PREFIX;
 import static jp.skyblock.Core.Const.Constant.logger;
+import static jp.skyblock.Executer.CommandExecIf.getInstance;
 
 public class Received {
-
-	private String getCommand(String msg) {
-		return PREFIX + msg;
-	}
-
-	private Boolean isCommand(String msg) {
-		return msg.length() > 1 && PREFIX.equals(StringUtils.left(msg, 1));
-	}
 
 	/**
 	 * @return event
@@ -35,6 +27,13 @@ public class Received {
 
 	private static String[] cmdParam;
 	private static MessageReceivedEvent event;
+	private static Guild guild;
+	private static User author;
+	private static Member member;
+	private static Message message;
+	private static MessageChannel channel;
+	private static TextChannel textChannel;
+	private static String msg;
 
 	public static Guild getGuild() {
 		return guild;
@@ -56,36 +55,37 @@ public class Received {
 		return channel;
 	}
 
-	public MessageChannel getTextChannel() {
-		return textChannel;
-	}
-
-
-	public String getMsg() {
-		return msg;
-	}
-
-	private static Guild guild;
-	private static User author;
-	private static Member member;
-	private static Message message;
-	private static MessageChannel channel;
-	private static TextChannel textChannel;
-	private static String msg;
-
 	public static MessageReceivedEvent getEvent() {
 		return event;
 	}
+
 	public void setEvent(MessageReceivedEvent event) {
 		Received.event = event;
 	}
-	public static String[] getCmdParam() { return cmdParam; }
+
+	public static String[] getCmdParam() {
+		return cmdParam;
+	}
+
 	public void setCmdParam(String[] cmdParam) {
 		Received.cmdParam = cmdParam;
 	}
 
+	private String getCommand(String msg) {
+		return PREFIX + msg;
+	}
 
+	private Boolean isCommand(String msg) {
+		return msg.length() > 1 && PREFIX.equals(StringUtils.left(msg, 1));
+	}
 
+	public MessageChannel getTextChannel() {
+		return textChannel;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
 
 	/**
 	 * @param event

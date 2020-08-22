@@ -11,13 +11,12 @@
 package jp.skyblock.Core.Const.Enums;
 
 public enum RoleType {
-	ADMIN(290015220519403520L, "管理者"),                        // ErrorLogを飛ばす先
-	CREATOR(290039249149886464L, "製作者"),                        // 管理者権限利用可能用ロール
-	FOLLOWER(691367915827757096L, "Follower"),                    // 制作関連の 通知を飛ばすロール
-	YOUTUBE_FOLLOWER(695706490371047526L, "Youtube Follow"),    // Youtube 通知を飛ばすロール
-	TWITTER_FOLLOWER(716591043457581067L, "Twitter Follow"),    // Twitter 通知を飛ばすロール
-	MEMBER(716604975144239115L, "メンバー"),                        // 認証済みメンバーロール Confirmed
-	EVERYONE(290014442748379137L, "everyone");                    // 未認証メンバーロール (everyone)
+	ADMIN(290015220519403520L, "管理者"),                // ErrorLogを飛ばす先
+	CREATOR(290039249149886464L, "製作者"),                // 管理者権限利用可能用ロール
+	YOUTUBE_FOLLOWER(695706490371047526L, "Youtube"),    // Youtube 通知を飛ばすロール
+	TWITTER_FOLLOWER(716591043457581067L, "Twitter"),    // Twitter 通知を飛ばすロール
+	MEMBER(716604975144239115L, "メンバー"),                // 認証済みメンバーロール Confirmed
+	EVERYONE(290014442748379137L, "everyone");            // 未認証メンバーロール (everyone)
 
 
 	private Long Id;

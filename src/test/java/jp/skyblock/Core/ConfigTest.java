@@ -16,12 +16,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.fail;
 
 public class ConfigTest {
 	private static final String TestDataDir = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "data" + File.separator;
-	private static final String TestDiscordProp = TestDataDir + "discord.properties";
+	private static final String TestDiscordProp = TestDataDir + "TEST.properties";
 	Config config = new Config();
 
 	@Before
@@ -40,35 +42,53 @@ public class ConfigTest {
 
 	@Test
 	public void getProperty() {
-		Assert.assertEquals("Test1", config.getProperty("Test"));
+		config.save(TestDiscordProp, "getProperty", "Test");
+		Assert.assertEquals("Test", config.getValue(TestDiscordProp, "getProperty"));
 	}
 
 	@Test
-	public void getPropertyList() {
-		config.load(TestDiscordProp);
-		config.getPropertyList("Test2");
+	public void getValueList() {
+		config.saveList(TestDiscordProp, "getValueList", "Test1");
+		config.saveList(TestDiscordProp, "getValueList", "Test2");
+		config.saveList(TestDiscordProp, "getValueList", "Test3");
+		config.saveList(TestDiscordProp, "getValueList", "Test4");
+		config.saveList(TestDiscordProp, "getValueList", "Test5");
+		config.saveList(TestDiscordProp, "getValueList", "Test6");
+
+		ArrayList<String> expected = config.getValueList(TestDiscordProp, "getValueList");
+		ArrayList<String> actual = new ArrayList<>(Arrays.asList("Test1", "Test6", "Test5", "Test4", "Test3", "Test2"));
+		Assert.assertEquals(expected, actual);
 	}
 
 
 	@Test
 	public void save() {
 		try {
-			config.save(TestDiscordProp, "Test", "Test1");
+			config.save(TestDiscordProp, "save", "AAA");
+			Assert.assertEquals("AAA", config.getValue(TestDiscordProp, "save"));
+
+			config.save(TestDiscordProp, "save", "BBB");
+			Assert.assertEquals("BBB", config.getValue(TestDiscordProp, "save"));
+
+			config.save(TestDiscordProp, "save", "CCC");
+			Assert.assertEquals("CCC", config.getValue(TestDiscordProp, "save"));
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+
+
 	}
 
 	@Test
 	public void saveList() {
 		try {
-			config.saveList(TestDiscordProp, "Test2", "Test1");
-			config.saveList(TestDiscordProp, "Test2", "Test2");
-			config.saveList(TestDiscordProp, "Test2", "Test3");
-			config.saveList(TestDiscordProp, "Test2", "Test4");
-			config.saveList(TestDiscordProp, "Test2", "Test5");
-			config.saveList(TestDiscordProp, "Test2", "Test6");
-
+			config.saveList(TestDiscordProp, "saveList", "Test1");
+			config.saveList(TestDiscordProp, "saveList", "Test2");
+			config.saveList(TestDiscordProp, "saveList", "Test3");
+			config.saveList(TestDiscordProp, "saveList", "Test4");
+			config.saveList(TestDiscordProp, "saveList", "Test5");
+			config.saveList(TestDiscordProp, "saveList", "Test6");
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());

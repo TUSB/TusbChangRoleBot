@@ -8,37 +8,21 @@
  * ************************************************
  */
 
-package jp.skyblock.Utility;
+package jp.skyblock.Utility.Exception;
 
-import jp.skyblock.Command.CommandExecIf;
 import jp.skyblock.Core.Const.Constant;
 import jp.skyblock.Core.Observer.Message.Received;
+import jp.skyblock.Utility.EmojiUtil;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.jetbrains.annotations.NotNull;
 
-public interface ExceptionIf  {
+public interface CommandExceptionIf {
 
-
-	/**
-	 * @param e
-	 * @return
-	 */
-
-	default Exception commandException(Exception e){
-		return e;
-	}
-
-
-	default Exception commandException(Exception e, String ErrorMessage){
-		return e;
-	}
 
 	Received received = new Received();
+
 	static Exception commandException(Exception e, String ErrorMessage, MessageReceivedEvent event) {
 		EmojiUtil emj = Constant.emj;
 		Guild guild = Received.getGuild();
@@ -51,6 +35,19 @@ public interface ExceptionIf  {
 		channel
 				.sendMessage(emj.ReplaceEmojiMessage(errorMes))
 				.complete();
+		return e;
+	}
+
+	/**
+	 * @param e
+	 * @return
+	 */
+
+	default Exception commandException(Exception e) {
+		return e;
+	}
+
+	default Exception commandException(Exception e, String ErrorMessage) {
 		return e;
 	}
 }

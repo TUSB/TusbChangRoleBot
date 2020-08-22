@@ -58,20 +58,13 @@ public class RoleUtil {
 		return this.isRole(member, RoleType.CREATOR.getId());
 	}
 
-	public boolean isFollower(Member member) {
-		return this.isRole(member, RoleType.FOLLOWER.getId());
-	}
-
-
 	public boolean isTwitterFollow(Member member) {
 		return this.isRole(member, RoleType.TWITTER_FOLLOWER.getId());
 	}
 
-
 	public boolean isYoutubeFollow(Member member) {
 		return this.isRole(member, RoleType.YOUTUBE_FOLLOWER.getId());
 	}
-
 
 	public boolean isMember(Member member) {
 		return this.isRole(member, RoleType.MEMBER.getId());

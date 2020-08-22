@@ -30,6 +30,8 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-core'
     compile 'org.slf4j:slf4j-log4j12:1.7.30'
     compile 'com.zaxxer:HikariCP:3.4.5'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.14'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.31.1'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.7'
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
@@ -43,4 +45,8 @@ dependencyManagement {
 }
 
 compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 tasks.withType(AbstractCompile)*.options*.encoding = tasks.withType(GroovyCompile)*.groovyOptions*.encoding = 'UTF-8'

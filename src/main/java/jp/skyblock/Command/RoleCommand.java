@@ -1,8 +1,8 @@
 package jp.skyblock.Command;
 
-import jp.skyblock.Core.Config;
 import jp.skyblock.Core.Const.Constant;
 import jp.skyblock.Core.Observer.Message.Received;
+import jp.skyblock.Executer.CommandExecIf;
 import jp.skyblock.Utility.EmojiUtil;
 import jp.skyblock.Utility.RoleUtil;
 import jp.skyblock.Utility.WelcomeMessage;
@@ -101,5 +101,4 @@ public class RoleCommand implements CommandExecIf {
 	public Object executeResponse(Object obj) {
 		return null;
 	}
-
 }

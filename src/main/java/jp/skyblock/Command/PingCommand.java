@@ -10,11 +10,10 @@
 
 package jp.skyblock.Command;
 
-import jp.skyblock.Core.Config;
 import jp.skyblock.Core.Const.Constant;
 import jp.skyblock.Core.Observer.Message.Received;
+import jp.skyblock.Executer.CommandExecIf;
 import jp.skyblock.Utility.EmojiUtil;
-import jp.skyblock.Utility.ExceptionIf;
 import jp.skyblock.Utility.RoleUtil;
 import jp.skyblock.Utility.WelcomeMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -35,8 +34,8 @@ public class PingCommand implements CommandExecIf {
 
 	@Override
 	public void execute() {
-		MessageReceivedEvent event = received.getEvent();
-		String[] cmdParam = received.getCmdParam();
+		MessageReceivedEvent event = Received.getEvent();
+		String[] cmdParam = Received.getCmdParam();
 		Guild guild = event.getGuild();
 		User author = event.getAuthor();
 		Member member = guild.getMember(author);
